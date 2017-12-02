@@ -1,4 +1,19 @@
-* [ ] Movement
+* [x] Movement
+* [ ] Art
+    * [x] Player ship
+    * [ ] Cannon projectile
+    * [ ] Laser
+    * [ ] Pirate ship
+    * [ ] Asteroid
+    * [ ] Enemy warp in
+    * [ ] Space station
+    * [x] Starry background
+    * [ ] Icons
+        * [ ] Cannon
+        * [ ] Laser
+        * [ ] Special: 360
+        * [ ] Special: Missile
+        * [ ] Life support?
 * [ ] Sounds
     * [ ] Music
         * [ ] Space station theme
@@ -45,5 +60,5 @@
         * [ ] 360 Cannon
         * [ ] Seeking missile
 * [ ] World
-    * [ ] Continue forever (until you run out of life support)
+    * [x] Push back when player reaches border (phony scifi reasons)
     * [ ] Static (no new asteroids but they may have orbits)
