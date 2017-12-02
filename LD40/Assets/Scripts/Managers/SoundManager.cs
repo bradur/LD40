@@ -25,9 +25,6 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     private AudioSource musicSource;
 
-    [SerializeField]
-    private AudioSource introSource;
-
 
     private List<GameSound> lerpPitchSounds = new List<GameSound>();
 
@@ -88,7 +85,7 @@ public class SoundManager : MonoBehaviour
     {
         if (!musicMuted)
         {
-            introSource.Play();
+            StartMusic();
         }
     }
 
@@ -309,10 +306,8 @@ public class SoundManager : MonoBehaviour
 
     public void StartMusic()
     {
-        isIntro = false;
         if (!musicMuted)
         {
-            StartCoroutine(FadeOut(introSource, 0.2f));
             musicSource.Play();
         }
     }
@@ -322,24 +317,11 @@ public class SoundManager : MonoBehaviour
         musicMuted = !musicMuted;
         if (musicMuted)
         {
-            if (isIntro)
-            {
-                introSource.Pause();
-            } else
-            {
-                musicSource.Pause();
-            }
+             musicSource.Pause();
         }
         else
         {
-            if (isIntro)
-            {
-                introSource.Play();
-            }
-            else
-            {
-                musicSource.Play();
-            }
+             musicSource.Play();
         }
         //UIManager.main.ToggleMusic();
         return musicMuted;

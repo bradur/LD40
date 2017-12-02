@@ -34,10 +34,11 @@ public class Projectile : MonoBehaviour {
     }
 
     private CannonPosition cannonPosition;
-    public void Init(float lifeTime, float speed, Vector2 dir)
+    public void Init(float lifeTime, float speed, Vector2 dir, Vector2 playerVelocity)
     {
         this.lifeTime = lifeTime;
         isActive = true;
+        rb2d.velocity = playerVelocity;
         rb2d.AddForce(dir * speed, ForceMode2D.Impulse);
     }
 

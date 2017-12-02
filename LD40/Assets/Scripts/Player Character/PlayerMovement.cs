@@ -20,6 +20,10 @@ public class PlayerMovement : MonoBehaviour
     private float moveSpeed = 1f;
 
     [SerializeField]
+    [Range(0.2f, 30f)]
+    private float moveSpeedBack = 1f;
+
+    [SerializeField]
     [Range(0.4f, 50f)]
     private float maxVelocityMagnitude = 5f;
 
@@ -36,6 +40,23 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    private GameObject backThruster;
+
+    [SerializeField]
+    private GameObject leftThruster;
+
+    [SerializeField]
+    private GameObject rightThruster;
+
+    [SerializeField]
+    private GameObject frontThrusterLeft;
+
+    [SerializeField]
+    private GameObject frontThrusterRight;
+
+    private float axisTreshold = 0.05f;
+
     private void Update()
     {
         /*float horizontalRotation = Input.GetAxis("Horizontal") * Time.deltaTime * rotationSpeed;
@@ -46,11 +67,38 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            rb2d.AddTorque(-Input.GetAxis("Horizontal") * rotationSpeed, ForceMode2D.Force);
+            float horizontalAxis = Input.GetAxis("Horizontal");
+            if (Mathf.Abs(horizontalAxis) <= axisTreshold)
+            {
+                leftThruster.SetActive(false);
+                rightThruster.SetActive(false);
+            }
+            else
+            {
+                if (horizontalAxis > 0f)
+                {
+                    leftThruster.SetActive(true);
+                }
+                else
+                {
+                    rightThruster.SetActive(true);
+                }
+                rb2d.AddTorque(-Input.GetAxis("Horizontal") * rotationSpeed, ForceMode2D.Force);
+            }
         }
 
-        if (Input.GetAxis("Vertical") > 0)
+        float verticalAxis = Input.GetAxis("Vertical");
+        if (Mathf.Abs(verticalAxis) <= axisTreshold)
         {
+            backThruster.SetActive(false);
+            frontThrusterLeft.SetActive(false);
+            frontThrusterRight.SetActive(false);
+        }
+        else if (verticalAxis > 0)
+        {
+            backThruster.SetActive(true);
+            frontThrusterLeft.SetActive(false);
+            frontThrusterRight.SetActive(false);
             if (is3D)
             {
                 if (rb.velocity.magnitude < maxVelocityMagnitude)
@@ -65,6 +113,16 @@ public class PlayerMovement : MonoBehaviour
                 {
                     rb2d.AddRelativeForce(Vector2.up * moveSpeed, ForceMode2D.Force);
                 }
+            }
+        }
+        else
+        {
+            frontThrusterLeft.SetActive(true);
+            frontThrusterRight.SetActive(true);
+            backThruster.SetActive(false);
+            if (rb2d.velocity.magnitude < maxVelocityMagnitude)
+            {
+                rb2d.AddRelativeForce(-Vector2.up * moveSpeedBack, ForceMode2D.Force);
             }
         }
     }

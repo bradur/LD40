@@ -26,7 +26,7 @@ public class ProjectileManager : MonoBehaviour
     private float lifeTime = 1f;
 
     [SerializeField]
-    [Range(0.2f, 5f)]
+    [Range(0.01f, 5f)]
     private float spawnInterval = 0.5f;
     private float spawnTimer = 1f;
 
@@ -38,6 +38,16 @@ public class ProjectileManager : MonoBehaviour
 
     [SerializeField]
     private Transform rightCannon;
+
+    [SerializeField]
+    private GameObject leftCannonLight;
+
+    [SerializeField]
+    private GameObject rightCannonLight;
+
+    [SerializeField]
+    [Range(0.05f, 1f)]
+    private float cannonLightDuration;
 
     private void Awake()
     {
@@ -58,14 +68,23 @@ public class ProjectileManager : MonoBehaviour
             if (spawningProjectiles)
             {
                 SpawnProjectile(leftCannon.position, leftCannon.up, leftCannon.rotation);
+                leftCannonLight.SetActive(true);
                 SpawnProjectile(rightCannon.position, rightCannon.up, rightCannon.rotation);
+                rightCannonLight.SetActive(true);
                 spawnTimer = 0f;
             }
+        }
+        else if (spawnTimer > cannonLightDuration)
+        {
+            leftCannonLight.SetActive(false);
+            rightCannonLight.SetActive(false);
         }
     }
 
     public void StopSpawningProjectiles()
     {
+        leftCannonLight.SetActive(false);
+        rightCannonLight.SetActive(false);
         spawningProjectiles = false;
         spawnTimer = 0f;
     }
@@ -79,6 +98,9 @@ public class ProjectileManager : MonoBehaviour
     }
 
     [SerializeField]
+    private Rigidbody2D playerRb2d;
+
+    [SerializeField]
     Projectile projectilePrefab;
     public void SpawnProjectile(Vector3 position, Vector2 direction, Quaternion rotation)
     {
@@ -87,7 +109,7 @@ public class ProjectileManager : MonoBehaviour
         newProjectile.transform.rotation = rotation;
         //Projectile newProjectile = Instantiate(projectilePrefab, position, rotation);
         //newProjectile.gameObject.SetActive(true);
-        newProjectile.Init(lifeTime, speed, direction);
+        newProjectile.Init(lifeTime, speed, direction, playerRb2d.velocity);
     }
 
     [SerializeField]

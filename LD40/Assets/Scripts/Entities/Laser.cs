@@ -52,6 +52,7 @@ public class Laser : MonoBehaviour
         isCasting = true;
     }
 
+    private Asteroid previousAsteroid;
     private void CastLaser()
     {
         Vector2 dir = transform.TransformDirection(Vector2.up);
@@ -60,12 +61,18 @@ public class Laser : MonoBehaviour
         rayHit = Physics2D.Raycast(laserPosition.position, dir, 10f, LayerMask.GetMask("Default"));
         if (rayHit.collider != null && rayHit.collider.tag == "Asteroid")
         {
-            rayHit.collider.gameObject.GetComponent<Asteroid>().GetHit(this);
+            previousAsteroid = rayHit.collider.gameObject.GetComponent<Asteroid>();
+            previousAsteroid.GetHit(this);
             ProjectileManager.main.ShowLaserEffect(rayHit.point);
             line.SetPosition(1, rayHit.point);
         }
         else
         {
+            if (previousAsteroid != null)
+            {
+                previousAsteroid.NotHittingAnymore();
+                previousAsteroid = null;
+            }
             line.SetPosition(1, (Vector2)transform.position + dir.normalized * 10f);
             ProjectileManager.main.HideLaserEffect();
         }
