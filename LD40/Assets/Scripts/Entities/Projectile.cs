@@ -11,7 +11,7 @@ public class Projectile : MonoBehaviour {
     private bool isActive = false;
     public bool IsActive { get { return isActive; } }
     [SerializeField]
-    private Rigidbody rb;
+    private Rigidbody2D rb2d;
 
     private float lifeTimer = 0f;
     private float lifeTime = 5f;
@@ -19,15 +19,13 @@ public class Projectile : MonoBehaviour {
     public void Deactivate()
     {
         isActive = false;
-        rb.velocity = Vector3.zero;
-        rb.isKinematic = true;
+        rb2d.velocity = Vector3.zero;
         lifeTimer = 0f;
     }
 
     public void Activate()
     {
         isActive = true;
-        rb.isKinematic = false;
     }
 
     public void Die()
@@ -35,19 +33,12 @@ public class Projectile : MonoBehaviour {
         ProjectileManager.main.Sleep(this);
     }
 
-    public void Init(CannonPosition cannonPosition, float lifeTime, float speed)
+    private CannonPosition cannonPosition;
+    public void Init(float lifeTime, float speed, Vector2 dir)
     {
-        transform.position = cannonPosition.transform.position;
-        transform.rotation = cannonPosition.transform.rotation;
         this.lifeTime = lifeTime;
-        Shoot(speed);
-        rb.isKinematic = false;
         isActive = true;
-    }
-
-    void Shoot(float speed)
-    {
-        rb.AddForce(transform.up * speed, ForceMode.Impulse);
+        rb2d.AddForce(dir * speed, ForceMode2D.Impulse);
     }
 
     private void Update()
@@ -55,6 +46,15 @@ public class Projectile : MonoBehaviour {
         lifeTimer += Time.deltaTime;
         if (lifeTimer > lifeTime)
         {
+            Die();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider2d)
+    {
+        if (collider2d.gameObject.tag == "Asteroid")
+        {
+            collider2d.gameObject.GetComponent<Asteroid>().GetHit(this);
             Die();
         }
     }

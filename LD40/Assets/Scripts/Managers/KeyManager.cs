@@ -4,7 +4,8 @@ using System.Collections.Generic;
 public enum Action
 {
     None,
-    ShootCannon
+    ShootCannon,
+    FireLaser
 }
 
 [System.Serializable]

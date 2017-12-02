@@ -23,6 +23,8 @@ public class ProjectilePool : MonoBehaviour
     [SerializeField]
     private Transform poolContainer;
 
+    private int projectileCount = 1;
+
     void Start()
     {
         currentProjectiles = new List<Projectile>();
@@ -36,8 +38,9 @@ public class ProjectilePool : MonoBehaviour
     private Projectile Spawn()
     {
         Projectile newProjectile = Instantiate(projectilePrefab);
-        //newProjectile.SetPool(this);
-        newProjectile.transform.SetParent(poolContainer);
+        newProjectile.name = "Projectile " + projectileCount;
+        projectileCount += 1;
+        newProjectile.transform.SetParent(poolContainer, true);
         return newProjectile;
     }
 
@@ -45,7 +48,7 @@ public class ProjectilePool : MonoBehaviour
     {
         currentProjectiles.Remove(projectile);
         projectile.Deactivate();
-        projectile.transform.SetParent(poolContainer);
+        projectile.transform.SetParent(poolContainer, true);
         projectile.gameObject.SetActive(false);
         backupProjectiles.Add(projectile);
     }

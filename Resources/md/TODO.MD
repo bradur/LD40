@@ -1,10 +1,10 @@
 * [x] Movement
 * [ ] Art
     * [x] Player ship
-    * [ ] Cannon projectile
+    * [x] Cannon projectile
     * [ ] Laser
     * [ ] Pirate ship
-    * [ ] Asteroid
+    * [x] Asteroid
     * [ ] Enemy warp in
     * [ ] Space station
     * [x] Starry background

@@ -9,7 +9,8 @@ public enum Cannon
 {
     None,
     Left,
-    Right
+    Right,
+    Laser
 }
 
 [System.Serializable]
@@ -28,7 +29,6 @@ public class PlayerShoot : MonoBehaviour {
     
     }
 
-
     CannonPosition GetCannonPosition(Cannon cannon)
     {
         foreach (CannonPosition cannonPosition in cannonPositions)
@@ -44,11 +44,19 @@ public class PlayerShoot : MonoBehaviour {
     void Update () {
         if (KeyManager.main.GetKeyDown(Action.ShootCannon))
         {
-            ProjectileManager.main.StartSpawningProjectiles(GetCannonPosition(Cannon.Left), GetCannonPosition(Cannon.Right));
+            ProjectileManager.main.StartSpawningProjectiles();
         }
         if (KeyManager.main.GetKeyUp(Action.ShootCannon))
         {
             ProjectileManager.main.StopSpawningProjectiles();
+        }
+        if (KeyManager.main.GetKeyDown(Action.FireLaser))
+        {
+            ProjectileManager.main.StartLaser(GetCannonPosition(Cannon.Laser));
+        }
+        if (KeyManager.main.GetKeyUp(Action.FireLaser))
+        {
+            ProjectileManager.main.StopLaser();
         }
     }
 }
