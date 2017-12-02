@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 public enum Action
 {
-    None
+    None,
+    ShootCannon
 }
 
 [System.Serializable]
