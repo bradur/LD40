@@ -5,7 +5,8 @@ public enum Action
 {
     None,
     ShootCannon,
-    FireLaser
+    FireLaser,
+    Buy
 }
 
 [System.Serializable]

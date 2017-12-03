@@ -15,22 +15,41 @@ public class HUDPower : MonoBehaviour {
     [SerializeField]
     private Image imgComponent;
 
+    private RectTransform imgRect;
+
+    private float maxValue = 100f;
+
+    private void Start()
+    {
+        currentValue = maxValue;
+        imgRect = imgComponent.GetComponent<RectTransform>();
+    }
+
     private float currentValue;
 
-    public void SetValue(float value)
+    public void SetValue(float value, float maxAmount)
     {
+        maxValue = maxAmount;
         currentValue = value;
-        txtComponent.text = value + "";
+        SetScale();
     }
 
     public void AddToValue(float addition)
     {
         currentValue += addition;
-        txtComponent.text = currentValue + "";
+        SetScale();
     }
     public void Withdraw(float removal)
     {
         currentValue -= removal;
-        txtComponent.text = currentValue + "";
+        SetScale();
+    }
+
+    void SetScale()
+    {
+        Vector2 tempScale = imgRect.localScale;
+        tempScale.x = currentValue / maxValue;
+        imgRect.localScale = tempScale;
+
     }
 }

@@ -6,6 +6,9 @@ using System.Collections.Generic;
 public enum SoundType
 {
     None,
+    GetMoney,
+    PirateWarning,
+    LowFuelWarning
 }
 
 public class SoundManager : MonoBehaviour

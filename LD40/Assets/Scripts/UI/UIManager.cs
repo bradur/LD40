@@ -117,19 +117,19 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private HUDPower hudPower;
 
-    void AddPower(float amount)
+    public void AddPower(float amount)
     {
         hudPower.AddToValue(amount);
     }
 
-    void DrainPower(float amount)
+    public void DrainPower(float amount)
     {
         hudPower.Withdraw(amount);
     }
 
-    void SetPower(float amount)
+    public void SetPower(float amount, float maxAmount)
     {
-        hudPower.SetValue(amount);
+        hudPower.SetValue(amount, maxAmount);
     }
 
 
