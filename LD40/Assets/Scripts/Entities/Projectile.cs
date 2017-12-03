@@ -5,7 +5,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class Projectile : MonoBehaviour {
+public class Projectile : MonoBehaviour
+{
 
 
     private bool isActive = false;
@@ -56,6 +57,10 @@ public class Projectile : MonoBehaviour {
         if (collider2d.gameObject.tag == "Asteroid")
         {
             collider2d.gameObject.GetComponent<Asteroid>().GetHit(this);
+            Die();
+        }
+        else if (collider2d.gameObject.tag == "SafeZone")
+        {
             Die();
         }
     }

@@ -25,6 +25,9 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     private AudioSource musicSource;
 
+    [SerializeField]
+    private AudioSource safezoneSource;
+
 
     private List<GameSound> lerpPitchSounds = new List<GameSound>();
 
@@ -98,10 +101,21 @@ public class SoundManager : MonoBehaviour
             yield return null;
         }
 
-        audioSource.Stop();
+        audioSource.Pause();
         audioSource.volume = startVolume;
     }
 
+    IEnumerator FadeIn(AudioSource audioSource, float fadeTime, float targetVolume)
+    {
+        float startVolume = audioSource.volume;
+        while (audioSource.volume < targetVolume)
+        {
+            audioSource.volume += Time.deltaTime / fadeTime;
+            yield return null;
+        }
+
+        audioSource.volume = targetVolume;
+    }
     public void FadeOutSound(SoundType soundType)
     {
         if (!sfxMuted)
@@ -263,6 +277,34 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public void SwitchToNormal()
+    {
+        safeZone = false;
+        if (!musicMuted)
+        {
+            StopCoroutine("FadeOut");
+            StopCoroutine("FadeIn");
+            StartCoroutine(FadeOut(safezoneSource, 2f));
+            musicSource.volume = 0f;
+            musicSource.Play();
+            StartCoroutine(FadeIn(musicSource, 2f, 0.226f));
+        }
+    }
+
+    public void SwitchToSafeZone()
+    {
+        safeZone = true;
+        if (!musicMuted)
+        {
+            StopCoroutine("FadeOut");
+            StopCoroutine("FadeIn");
+            StartCoroutine(FadeOut(musicSource, 2f));
+            safezoneSource.volume = 0f;
+            safezoneSource.Play();
+            StartCoroutine(FadeIn(safezoneSource, 2f, 0.8f));
+        }
+    }
+
     public void StopSound(SoundType soundType)
     {
         if (!sfxMuted)
@@ -303,12 +345,19 @@ public class SoundManager : MonoBehaviour
         sound.Play();
     }
 
-
+    private bool safeZone = false;
     public void StartMusic()
     {
         if (!musicMuted)
         {
-            musicSource.Play();
+            if (safeZone)
+            {
+                safezoneSource.Play();
+            }
+            else
+            {
+                musicSource.Play();
+            }
         }
     }
 
@@ -317,11 +366,25 @@ public class SoundManager : MonoBehaviour
         musicMuted = !musicMuted;
         if (musicMuted)
         {
-             musicSource.Pause();
+            if (safeZone)
+            {
+                safezoneSource.Pause();
+            }
+            else
+            {
+                musicSource.Pause();
+            }
         }
         else
         {
-             musicSource.Play();
+            if (safeZone)
+            {
+                safezoneSource.Play();
+            }
+            else
+            {
+                musicSource.Play();
+            }
         }
         //UIManager.main.ToggleMusic();
         return musicMuted;

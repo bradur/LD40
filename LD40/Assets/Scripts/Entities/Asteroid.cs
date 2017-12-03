@@ -11,23 +11,29 @@ public class Asteroid : MonoBehaviour {
         originalColor = sr.color;
     }
 
+    [SerializeField]
+    [Range(1, 60)]
+    private int tonsOfOre = 5;
+
     private Color originalColor;
     private bool laserIsHitting = false;
-    [SerializeField]
-    [Range(5, 50)]
-    private int hitPoints = 20;
+    private bool isDying = false;
+
     private float isHittingTimer = 0f;
 
     void LateUpdate () {
-        if (laserIsHitting)
+        if (laserIsHitting && !isDying)
         {
             isHittingTimer += Time.deltaTime;
-            sr.color = Color.Lerp(originalColor, laseredColor, (isHittingTimer / hitPoints));
-            if (isHittingTimer >= hitPoints)
+            sr.color = Color.Lerp(originalColor, laseredColor, (isHittingTimer / tonsOfOre));
+            if (isHittingTimer >= tonsOfOre)
             {
                 laserIsHitting = false;
                 StartDying();
             }
+        } else
+        {
+            sr.color = Color.Lerp(originalColor, laseredColor, (isHittingTimer / tonsOfOre));
         }
     }
 
@@ -41,13 +47,14 @@ public class Asteroid : MonoBehaviour {
     private Animator animator;
     private void StartDying ()
     {
+        isDying = true;
+        GameManager.main.PlayerGetOre(tonsOfOre, transform.position);
         animator.SetTrigger("Die");
     }
 
     public void Die()
     {
         Destroy(gameObject);
-        // pay player
     }
 
     public void GetHit(Projectile projectile)

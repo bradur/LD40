@@ -27,11 +27,18 @@ public class PlayerMovement : MonoBehaviour
     [Range(0.4f, 50f)]
     private float maxVelocityMagnitude = 5f;
 
+    [SerializeField]
+    [Range(0.2f, 10f)]
+    private float maxVelocityMagnitudeSafeZone = 1f;
+
+    private float velocityMagnitudeMax = 0f;
+
     private bool is3D = false;
 
 
     private void Start()
     {
+        velocityMagnitudeMax = maxVelocityMagnitude;
         rb2d = GetComponent<Rigidbody2D>();
         if (rb2d == null)
         {
@@ -101,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
             frontThrusterRight.SetActive(false);
             if (is3D)
             {
-                if (rb.velocity.magnitude < maxVelocityMagnitude)
+                if (rb.velocity.magnitude < velocityMagnitudeMax)
                 {
                     rb.AddRelativeForce(Vector2.up * moveSpeed, ForceMode.Force);
                 }
@@ -109,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                if (rb2d.velocity.magnitude < maxVelocityMagnitude)
+                if (rb2d.velocity.magnitude < velocityMagnitudeMax)
                 {
                     rb2d.AddRelativeForce(Vector2.up * moveSpeed, ForceMode2D.Force);
                 }
@@ -120,11 +127,25 @@ public class PlayerMovement : MonoBehaviour
             frontThrusterLeft.SetActive(true);
             frontThrusterRight.SetActive(true);
             backThruster.SetActive(false);
-            if (rb2d.velocity.magnitude < maxVelocityMagnitude)
+            if (rb2d.velocity.magnitude < velocityMagnitudeMax)
             {
                 rb2d.AddRelativeForce(-Vector2.up * moveSpeedBack, ForceMode2D.Force);
             }
         }
     }
 
+
+    public void EnterSafeZone()
+    {
+        /*SafeZone safeZone = collision.gameObject.GetComponent<SafeZone>();
+        safeZone.PlayerEnter();*/
+        rb2d.velocity = rb2d.velocity * 0.6f;
+        velocityMagnitudeMax = maxVelocityMagnitudeSafeZone;
+
+    }
+
+    public void LeaveSafeZone()
+    {
+        velocityMagnitudeMax = maxVelocityMagnitude;
+    }
 }

@@ -58,7 +58,7 @@ public class Laser : MonoBehaviour
         Vector2 dir = transform.TransformDirection(Vector2.up);
         line.SetPosition(0, transform.position);
         RaycastHit2D[] results = new RaycastHit2D[] { };
-        rayHit = Physics2D.Raycast(laserPosition.position, dir, 10f, LayerMask.GetMask("Default"));
+        rayHit = Physics2D.Raycast(laserPosition.position, dir, 10f, LayerMask.GetMask("Default", "SafeZone"));
         if (rayHit.collider != null && rayHit.collider.tag == "Asteroid")
         {
             previousAsteroid = rayHit.collider.gameObject.GetComponent<Asteroid>();
@@ -73,7 +73,13 @@ public class Laser : MonoBehaviour
                 previousAsteroid.NotHittingAnymore();
                 previousAsteroid = null;
             }
-            line.SetPosition(1, (Vector2)transform.position + dir.normalized * 10f);
+            if (rayHit.collider != null && rayHit.collider.tag == "SafeZone")
+            {
+                line.SetPosition(1, rayHit.point);
+            } else
+            {
+                line.SetPosition(1, (Vector2)transform.position + dir.normalized * 10f);
+            }
             ProjectileManager.main.HideLaserEffect();
         }
         if (!line.enabled)
@@ -84,6 +90,11 @@ public class Laser : MonoBehaviour
 
     public void StopLaser()
     {
+        if (previousAsteroid != null)
+        {
+            previousAsteroid.NotHittingAnymore();
+            previousAsteroid = null;
+        }
         ProjectileManager.main.HideLaserEffect();
         isCasting = false;
         line.enabled = false;

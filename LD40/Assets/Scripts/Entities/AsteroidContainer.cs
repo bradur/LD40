@@ -10,7 +10,6 @@ public class AsteroidContainer : MonoBehaviour {
     [SerializeField]
     private Asteroid asteroid;
 
-
     public void Kill()
     {
         asteroid.Die();

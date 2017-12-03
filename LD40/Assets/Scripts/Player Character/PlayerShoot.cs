@@ -20,15 +20,31 @@ public class CannonPosition : System.Object
     public Transform transform;
 }
 
-public class PlayerShoot : MonoBehaviour {
+
+public class PlayerShoot : MonoBehaviour
+{
 
     [SerializeField]
     private List<CannonPosition> cannonPositions = new List<CannonPosition>();
 
-    void Start () {
-    
+    void Start()
+    {
+
     }
 
+    bool weaponsDisabled = false;
+    public void DisableWeapons()
+    {
+        weaponsDisabled = true;
+        ProjectileManager.main.StopLaser();
+        ProjectileManager.main.StopSpawningProjectiles();
+    }
+
+
+    public void EnableWeapons()
+    {
+        weaponsDisabled = false;
+    }
     CannonPosition GetCannonPosition(Cannon cannon)
     {
         foreach (CannonPosition cannonPosition in cannonPositions)
@@ -41,22 +57,26 @@ public class PlayerShoot : MonoBehaviour {
         return null;
     }
 
-    void Update () {
-        if (KeyManager.main.GetKeyDown(Action.ShootCannon))
+    void Update()
+    {
+        if (!weaponsDisabled)
         {
-            ProjectileManager.main.StartSpawningProjectiles();
-        }
-        if (KeyManager.main.GetKeyUp(Action.ShootCannon))
-        {
-            ProjectileManager.main.StopSpawningProjectiles();
-        }
-        if (KeyManager.main.GetKeyDown(Action.FireLaser))
-        {
-            ProjectileManager.main.StartLaser(GetCannonPosition(Cannon.Laser));
-        }
-        if (KeyManager.main.GetKeyUp(Action.FireLaser))
-        {
-            ProjectileManager.main.StopLaser();
+            if (KeyManager.main.GetKeyDown(Action.ShootCannon))
+            {
+                ProjectileManager.main.StartSpawningProjectiles();
+            }
+            if (KeyManager.main.GetKeyUp(Action.ShootCannon))
+            {
+                ProjectileManager.main.StopSpawningProjectiles();
+            }
+            if (KeyManager.main.GetKeyDown(Action.FireLaser))
+            {
+                ProjectileManager.main.StartLaser(GetCannonPosition(Cannon.Laser));
+            }
+            if (KeyManager.main.GetKeyUp(Action.FireLaser))
+            {
+                ProjectileManager.main.StopLaser();
+            }
         }
     }
 }
