@@ -48,6 +48,7 @@ public class HUDHealth : MonoBehaviour {
         Vector2 tempScale = imgRect.localScale;
         tempScale.x = 1.0f * health / maxHealth;
         imgRect.localScale = tempScale;
+        txtComponent.text = (1.0f * health / maxHealth * 100.0f).ToString("F2");
     }
 
 }

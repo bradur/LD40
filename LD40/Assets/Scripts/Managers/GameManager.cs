@@ -85,15 +85,16 @@ public class GameManager : MonoBehaviour
 
     public void PlayerTakeDamage(DamageType damageType)
     {
+        int damage = 2;
         if (damageType == DamageType.EnemyProjectile)
         {
-            currentHealth -= 10;
+            currentHealth -= damage;
             if (currentHealth <= 0)
             {
                 GameOver();
             }
         }
-        UIManager.main.PlayerTakeDamage(10);
+        UIManager.main.PlayerTakeDamage(damage);
     }
 
     public int HitpointsMissing()

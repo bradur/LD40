@@ -53,12 +53,21 @@ public class Laser : MonoBehaviour
     }
 
     private Asteroid previousAsteroid;
+    [SerializeField]
+    [Range(0.01f, 20f)]
+    private float laserFuelCost = 0.05f;
+
+    private float laserLength = 6f;
     private void CastLaser()
     {
+        if (!GameManager.main.WithDrawFuel(laserFuelCost))
+        {
+            return;
+        }
         Vector2 dir = transform.TransformDirection(Vector2.up);
         line.SetPosition(0, transform.position);
         RaycastHit2D[] results = new RaycastHit2D[] { };
-        rayHit = Physics2D.Raycast(laserPosition.position, dir, 10f, LayerMask.GetMask("Default", "SafeZone"));
+        rayHit = Physics2D.Raycast(laserPosition.position, dir, laserLength, LayerMask.GetMask("Default", "SafeZone"));
         if (rayHit.collider != null && rayHit.collider.tag == "Asteroid")
         {
             previousAsteroid = rayHit.collider.gameObject.GetComponent<Asteroid>();
@@ -78,7 +87,7 @@ public class Laser : MonoBehaviour
                 line.SetPosition(1, rayHit.point);
             } else
             {
-                line.SetPosition(1, (Vector2)transform.position + dir.normalized * 10f);
+                line.SetPosition(1, (Vector2)transform.position + dir.normalized * laserLength);
             }
             ProjectileManager.main.HideLaserEffect();
         }

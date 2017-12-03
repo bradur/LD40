@@ -19,6 +19,7 @@ public class HUDPower : MonoBehaviour {
 
     private float maxValue = 100f;
 
+
     private void Start()
     {
         currentValue = maxValue;
@@ -31,25 +32,25 @@ public class HUDPower : MonoBehaviour {
     {
         maxValue = maxAmount;
         currentValue = value;
-        SetScale();
+        RenderValue();
     }
 
     public void AddToValue(float addition)
     {
         currentValue += addition;
-        SetScale();
+        RenderValue();
     }
     public void Withdraw(float removal)
     {
         currentValue -= removal;
-        SetScale();
+        RenderValue();
     }
 
-    void SetScale()
+    void RenderValue()
     {
         Vector2 tempScale = imgRect.localScale;
         tempScale.x = currentValue / maxValue;
         imgRect.localScale = tempScale;
-
+        txtComponent.text = (currentValue / maxValue * 100).ToString("F2");
     }
 }

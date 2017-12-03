@@ -49,7 +49,7 @@ public class EnemyShip : MonoBehaviour
     public void WarpIn()
     {
         isWarping = true;
-        animator.SetTrigger("Warp");
+        //animator.SetTrigger("Warp");
     }
 
     public void StartMoving()

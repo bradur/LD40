@@ -15,6 +15,19 @@ public class UIManager : MonoBehaviour
         main = this;
     }
 
+    [SerializeField]
+    private ExitGameDialog exitGameDialog;
+    void Update()
+    {
+        if (KeyManager.main.GetKeyUp(Action.Pause)) {
+            if(!exitGameDialog.isActiveAndEnabled)
+            {
+                exitGameDialog.gameObject.SetActive(true);
+            }
+            exitGameDialog.Toggle();
+        }
+    }
+
     /*[SerializeField]
     private MessageDisplay messageDisplay;*/
 
@@ -85,6 +98,18 @@ public class UIManager : MonoBehaviour
     public void SetOre(int value)
     {
         hudOre.SetValue(value);
+    }
+
+    [SerializeField]
+    private HomePointer homePointer;
+    public void HideHomePointer()
+    {
+        homePointer.Hide();
+    }
+
+    public void ShowHomePointer()
+    {
+        homePointer.Show();
     }
 
     [SerializeField]

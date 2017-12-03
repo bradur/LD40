@@ -6,7 +6,10 @@ public enum Action
     None,
     ShootCannon,
     FireLaser,
-    Buy
+    Buy,
+    Restart,
+    Quit,
+    Pause
 }
 
 [System.Serializable]
