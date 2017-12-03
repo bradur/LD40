@@ -16,6 +16,23 @@ public class UIManager : MonoBehaviour
     }
 
     [SerializeField]
+    private GameObject infoDialog;
+    public void ToggleInfoDialog()
+    {
+        infoDialog.gameObject.SetActive(!infoDialog.gameObject.activeSelf);
+    }
+
+    public void Victory()
+    {
+        gameOver = true;
+        if (!exitGameDialog.isActiveAndEnabled)
+        {
+            exitGameDialog.gameObject.SetActive(true);
+        }
+        exitGameDialog.Open("The END!", true);
+    }
+
+    [SerializeField]
     private ExitGameDialog exitGameDialog;
     void Update()
     {
@@ -26,7 +43,23 @@ public class UIManager : MonoBehaviour
             }
             exitGameDialog.Toggle();
         }
+        if (KeyManager.main.GetKeyUp(Action.TogglePointers))
+        {
+            pointerContainer.gameObject.SetActive(!pointerContainer.gameObject.activeSelf);
+            radarText.gameObject.SetActive(!radarText.gameObject.activeSelf);
+        }
+        if (KeyManager.main.GetKeyUp(Action.ToggleMusic))
+        {
+            ToggleMusic();
+        }
+        if (KeyManager.main.GetKeyUp(Action.ToggleSounds))
+        {
+            ToggleSfx();
+        }
     }
+
+    [SerializeField]
+    private GameObject radarText;
 
     private bool gameOver = false;
     public void OpenGameOverDialog()
@@ -37,6 +70,15 @@ public class UIManager : MonoBehaviour
             exitGameDialog.gameObject.SetActive(true);
         }
         exitGameDialog.Open("Game over!");
+    }
+
+    public void OpenOutofFuelDialog()
+    {
+        if (!exitGameDialog.isActiveAndEnabled)
+        {
+            exitGameDialog.gameObject.SetActive(true);
+        }
+        exitGameDialog.Open("OUT OF FUEL!", false);
     }
 
     /*[SerializeField]
@@ -88,6 +130,26 @@ public class UIManager : MonoBehaviour
     }
 
     [SerializeField]
+    private HomePointer genericPointerPrefab;
+
+    [SerializeField]
+    private Transform pointerContainer;
+    public void CreatePointer(Transform target, Color color, SpriteRenderer renderer, Sprite icon, float ypos)
+    {
+        HomePointer homePointer = Instantiate(genericPointerPrefab);
+        if (!homePointer.isActiveAndEnabled)
+        {
+            homePointer.gameObject.SetActive(true);
+        }
+        RectTransform rt = homePointer.GetComponent<RectTransform>();
+        rt.SetParent(pointerContainer);
+        rt.localPosition = Vector2.zero;
+        /*homePointer.transform.SetParent(pointerContainer);
+        homePointer.transform.position = Vector2.zero;*/
+        homePointer.Init(target, color, renderer, icon, ypos);
+    }
+
+    [SerializeField]
     private HUDToggle hudMusic;
 
     [SerializeField]
@@ -95,12 +157,14 @@ public class UIManager : MonoBehaviour
 
     public void ToggleMusic()
     {
-        hudMusic.Toggle();
+        //hudMusic.Toggle();
+        SoundManager.main.ToggleMusic();
     }
 
     public void ToggleSfx()
     {
-        hudSfx.Toggle();
+        //hudSfx.Toggle();
+        SoundManager.main.ToggleSfx();
     }
 
     [SerializeField]
@@ -109,18 +173,6 @@ public class UIManager : MonoBehaviour
     public void SetOre(int value)
     {
         hudOre.SetValue(value);
-    }
-
-    [SerializeField]
-    private HomePointer homePointer;
-    public void HideHomePointer()
-    {
-        homePointer.Hide();
-    }
-
-    public void ShowHomePointer()
-    {
-        homePointer.Show();
     }
 
     [SerializeField]

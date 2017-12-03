@@ -25,7 +25,6 @@ public class SafeZone : MonoBehaviour
         playerIsHere = true;
         playerShoot.DisableWeapons();
         playerMovement.EnterSafeZone();
-        UIManager.main.HideHomePointer();
     }
 
     void Start()
@@ -44,7 +43,6 @@ public class SafeZone : MonoBehaviour
                 playerMovement.LeaveSafeZone();
                 SoundManager.main.SwitchToNormal();
                 playerShoot.EnableWeapons();
-                UIManager.main.ShowHomePointer();
             }
             else if (!SoundManager.main.SafeZone)
             {

@@ -1140,8 +1140,10 @@ MonoBehaviour:
   health: 100
   trailLeft: {fileID: 1764320290399026}
   trailRight: {fileID: 1471324588870528}
+  pointerColor: {r: 1, g: 0, b: 0, a: 0.372}
+  pointerIcon: {fileID: 21300004, guid: 7d0f97b992923e04dada3eb2518d6ea3, type: 3}
   sr: {fileID: 212018413563445378}
-  laseredColor: {r: 1, g: 0, b: 0, a: 0.934}
+  laseredColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &114681410900510142
 MonoBehaviour:
   m_ObjectHideFlags: 1

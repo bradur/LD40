@@ -9,7 +9,10 @@ public enum Action
     Buy,
     Restart,
     Quit,
-    Pause
+    Pause,
+    TogglePointers,
+    ToggleMusic,
+    ToggleSounds
 }
 
 [System.Serializable]

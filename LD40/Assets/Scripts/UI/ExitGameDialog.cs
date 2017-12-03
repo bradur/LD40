@@ -25,6 +25,12 @@ public class ExitGameDialog : MonoBehaviour
     private Text gameOverMenuTxt;
 
     [SerializeField]
+    private Text victoryMenuTxt;
+
+    [SerializeField]
+    private Text fuelMenuTxt;
+
+    [SerializeField]
     private Animator animator;
 
     public void Open()
@@ -40,6 +46,24 @@ public class ExitGameDialog : MonoBehaviour
         txtComponent.text = text;
         gameOverMenuTxt.enabled = true;
         pauseMenuTxt.enabled = false;
+        animator.SetTrigger("Open");
+        isOpen = true;
+    }
+
+    public void Open(string text, bool victory)
+    {
+        Time.timeScale = 0f;
+        txtComponent.text = text;
+        gameOverMenuTxt.enabled = false;
+        pauseMenuTxt.enabled = false;
+        if (victory)
+        {
+            victoryMenuTxt.enabled = true;
+        } else
+        {
+            fuelMenuTxt.enabled = true;
+        }
+
         animator.SetTrigger("Open");
         isOpen = true;
     }

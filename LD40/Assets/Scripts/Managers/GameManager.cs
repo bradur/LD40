@@ -67,6 +67,10 @@ public class GameManager : MonoBehaviour
     }
 
     [SerializeField]
+    [Range(10000, 1000000)]
+    private int victoryCondition = 100000; // 100k
+
+    [SerializeField]
     private EnemyManager enemyManager;
     public void SpawnEnemies(int newOre)
     {
@@ -106,6 +110,10 @@ public class GameManager : MonoBehaviour
 
     public bool WithDrawFuel(float amount)
     {
+        if (fuel <= 0.01f)
+        {
+            return false;
+        }
         if (Time.timeScale < 1f)
         {
             return false;
@@ -113,11 +121,17 @@ public class GameManager : MonoBehaviour
         if (fuel >= amount)
         {
             fuel -= amount;
+            if ((fuel / maxFuel) < 0.25f)
+            {
+                SoundManager.main.PlaySoundIfNotPlaying(SoundType.LowFuelWarning);
+            }
             UIManager.main.DrainPower(amount);
             return true;
         }
         else
         {
+            fuel = 0f;
+            UIManager.main.OpenOutofFuelDialog();
             return false;
         }
     }
@@ -156,7 +170,8 @@ public class GameManager : MonoBehaviour
                 return false;
             }
             return true;
-        } else if (resourceType == ResourceType.Health)
+        }
+        else if (resourceType == ResourceType.Health)
         {
             if (currentHealth >= hitpoints)
             {
@@ -179,6 +194,10 @@ public class GameManager : MonoBehaviour
         }
         else if (resourceType == ResourceType.Power)
         {
+            if (((fuel + amount) / maxFuel) > 0.25f)
+            {
+                SoundManager.main.StopSound(SoundType.LowFuelWarning);
+            }
             if ((fuel + amount) > maxFuel)
             {
                 PlayerSetPower(maxFuel);
@@ -232,6 +251,10 @@ public class GameManager : MonoBehaviour
     public void PlayerGetMoney(int newMoney)
     {
         money += newMoney;
+        if (money >= victoryCondition)
+        {
+            UIManager.main.Victory();
+        }
         UIManager.main.Topup(newMoney);
         SoundManager.main.PlaySound(SoundType.GetMoney);
     }

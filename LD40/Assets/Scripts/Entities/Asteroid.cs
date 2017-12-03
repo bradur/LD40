@@ -9,6 +9,9 @@ public class Asteroid : MonoBehaviour {
 
     void Start () {
         originalColor = sr.color;
+        Color newColor = Color.white;
+        newColor.a = 0.8f;
+        UIManager.main.CreatePointer(transform, newColor, sr, sr.sprite, 180);
     }
 
     [SerializeField]
@@ -18,6 +21,7 @@ public class Asteroid : MonoBehaviour {
     private Color originalColor;
     private bool laserIsHitting = false;
     private bool isDying = false;
+
 
     private float isHittingTimer = 0f;
 

@@ -94,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                if (GameManager.main.WithDrawFuel(sideThrusterFuelCost))
+                if (inSafeZone || GameManager.main.WithDrawFuel(sideThrusterFuelCost))
                 {
                     if (horizontalAxis > 0f)
                     {
@@ -105,7 +105,8 @@ public class PlayerMovement : MonoBehaviour
                         rightThruster.SetActive(true);
                     }
                     rb2d.AddTorque(-Input.GetAxis("Horizontal") * rotationSpeed, ForceMode2D.Force);
-                } else
+                }
+                else
                 {
                     leftThruster.SetActive(false);
                     rightThruster.SetActive(false);
@@ -122,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (verticalAxis > 0)
         {
-            if (GameManager.main.WithDrawFuel(backThrusterFuelCost))
+            if (inSafeZone || GameManager.main.WithDrawFuel(backThrusterFuelCost))
             {
                 backThruster.SetActive(true);
                 frontThrusterLeft.SetActive(false);
@@ -142,14 +143,15 @@ public class PlayerMovement : MonoBehaviour
                         rb2d.AddRelativeForce(Vector2.up * moveSpeed, ForceMode2D.Force);
                     }
                 }
-            } else
+            }
+            else
             {
                 backThruster.SetActive(false);
             }
         }
         else
         {
-            if (GameManager.main.WithDrawFuel(frontThrusterFuelCost))
+            if (inSafeZone || GameManager.main.WithDrawFuel(frontThrusterFuelCost))
             {
                 frontThrusterLeft.SetActive(true);
                 frontThrusterRight.SetActive(true);
@@ -158,7 +160,8 @@ public class PlayerMovement : MonoBehaviour
                 {
                     rb2d.AddRelativeForce(-Vector2.up * moveSpeedBack, ForceMode2D.Force);
                 }
-            } else
+            }
+            else
             {
                 frontThrusterLeft.SetActive(false);
                 frontThrusterRight.SetActive(false);
@@ -167,18 +170,22 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
+    private bool inSafeZone = true;
     public void EnterSafeZone()
     {
         /*SafeZone safeZone = collision.gameObject.GetComponent<SafeZone>();
         safeZone.PlayerEnter();*/
         rb2d.velocity = rb2d.velocity * 0.2f;
         velocityMagnitudeMax = maxVelocityMagnitudeSafeZone;
-
+        UIManager.main.ToggleInfoDialog();
+        inSafeZone = true;
     }
 
     public void LeaveSafeZone()
     {
         velocityMagnitudeMax = maxVelocityMagnitude;
+        UIManager.main.ToggleInfoDialog();
+        inSafeZone = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

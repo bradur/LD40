@@ -302,7 +302,7 @@ public class SoundManager : MonoBehaviour
             {
                 StopCoroutine(fadeOut);
             }
-            fadeIn = FadeIn(musicSource, 2f, 0.45f);
+            fadeIn = FadeIn(musicSource, 2f, 0.38f);
             fadeOut = FadeOut(safezoneSource, 2f);
             StartCoroutine(fadeOut);
             musicSource.volume = 0f;
@@ -324,7 +324,7 @@ public class SoundManager : MonoBehaviour
             {
                 StopCoroutine(fadeOut);
             }
-            fadeIn = FadeIn(safezoneSource, 2f, 0.8f);
+            fadeIn = FadeIn(safezoneSource, 2f, 0.65f);
             fadeOut = FadeOut(musicSource, 2f);
             StartCoroutine(fadeOut);
             safezoneSource.volume = 0f;
@@ -373,7 +373,7 @@ public class SoundManager : MonoBehaviour
         sound.Play();
     }
 
-    private bool safeZone = false;
+    private bool safeZone = true;
     public bool SafeZone { get { return safeZone; } }
     public void StartMusic()
     {

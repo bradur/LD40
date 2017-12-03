@@ -64,6 +64,7 @@ public class Laser : MonoBehaviour
     {
         if (!GameManager.main.WithDrawFuel(laserFuelCost))
         {
+            isCasting = false;
             return;
         }
         Vector2 dir = transform.TransformDirection(Vector2.up);

@@ -39,6 +39,12 @@ public class EnemyShip : MonoBehaviour
     [SerializeField]
     private GameObject trailRight;
 
+    [SerializeField]
+    private Color pointerColor;
+
+    [SerializeField]
+    private Sprite pointerIcon;
+
     public void Init(Vector2 position, Vector2 target)
     {
         maxHealth = health;
@@ -46,6 +52,7 @@ public class EnemyShip : MonoBehaviour
         this.target = target;
         originalColor = sr.color;
         transform.up = (target - position).normalized;
+        UIManager.main.CreatePointer(transform, pointerColor, sr, pointerIcon, 220);
         WarpIn();
     }
 
@@ -92,7 +99,7 @@ public class EnemyShip : MonoBehaviour
     private float isHittingTimer = 0f;
     private float isHittingInterval = 0.5f;
 
-    private int laserDamage = 5;
+    private int laserDamage = 15;
 
     [SerializeField]
     private SpriteRenderer sr;
