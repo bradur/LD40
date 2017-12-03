@@ -61,13 +61,14 @@ public class PlayerShoot : MonoBehaviour
     {
         if (!weaponsDisabled)
         {
-            if (KeyManager.main.GetKeyDown(Action.ShootCannon))
+            /*if (KeyManager.main.GetKeyDown(Action.ShootCannon))
             {
-                ProjectileManager.main.StartSpawningProjectiles();
-            }
+                //ProjectileManager.main.StartSpawningProjectiles();
+            }*/
             if (KeyManager.main.GetKeyUp(Action.ShootCannon))
             {
-                ProjectileManager.main.StopSpawningProjectiles();
+                //ProjectileManager.main.StopSpawningProjectiles();
+                ProjectileManager.main.SpawnProjectileNow();
             }
             if (KeyManager.main.GetKeyDown(Action.FireLaser))
             {

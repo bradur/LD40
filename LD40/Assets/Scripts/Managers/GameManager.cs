@@ -17,7 +17,12 @@ public class GameManager : MonoBehaviour
 
     public static GameManager main;
 
+    private int playerDamage = 10;
 
+    public int GetPlayerProjectileDamage()
+    {
+        return playerDamage;
+    }
 
     [SerializeField]
     [Range(0, 1000)]
@@ -54,6 +59,25 @@ public class GameManager : MonoBehaviour
         UIManager.main.SetInitialHealth(hitpoints);
     }
 
+    [SerializeField]
+    private Transform playerTransform;
+    public Transform GetPlayerTransform()
+    {
+        return playerTransform;
+    }
+
+    [SerializeField]
+    private EnemyManager enemyManager;
+    public void SpawnEnemies(int newOre)
+    {
+        int enemyCount = ((ore * 1000) + (newOre * 1000) + money) / 10000;
+        if (enemyCount < 1)
+        {
+            enemyCount = 1;
+        }
+        enemyManager.SpawnEnemies(enemyCount);
+    }
+
     public void GameOver()
     {
         Debug.Log("You died!");
@@ -72,7 +96,7 @@ public class GameManager : MonoBehaviour
         UIManager.main.PlayerTakeDamage(10);
     }
 
-    public int HitpointsMissing ()
+    public int HitpointsMissing()
     {
         return hitpoints - currentHealth;
     }
@@ -122,20 +146,63 @@ public class GameManager : MonoBehaviour
     }
 
 
+    public bool CanGainResource(ResourceType resourceType, int amount)
+    {
+        if (resourceType == ResourceType.Power)
+        {
+            if (fuel >= maxFuel)
+            {
+                return false;
+            }
+            return true;
+        } else if (resourceType == ResourceType.Health)
+        {
+            if (currentHealth >= hitpoints)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public bool GainResource(ResourceType resourceType, int amount)
     {
         if (resourceType == ResourceType.Money)
         {
             PlayerGetMoney(amount);
+            return true;
         }
         else if (resourceType == ResourceType.Ore)
         {
             PlayerGetOre(amount);
-        } else if (resourceType == ResourceType.Power)
+        }
+        else if (resourceType == ResourceType.Power)
         {
+            if ((fuel + amount) > maxFuel)
+            {
+                PlayerSetPower(maxFuel);
+                return false;
+            }
             PlayerGetPower(amount);
+            return true;
+        }
+        else if (resourceType == ResourceType.Health)
+        {
+            if ((currentHealth + amount) > hitpoints)
+            {
+                PlayerSetHealth(hitpoints);
+                return false;
+            }
+            RepairShip(amount);
+            return true;
         }
         return false;
+    }
+
+    void PlayerSetHealth(int value)
+    {
+        currentHealth = value;
+        UIManager.main.SetInitialHealth(value);
     }
 
     public void PlayerGetOreEffect(int tonsOfOre, Vector3 position)
@@ -148,6 +215,12 @@ public class GameManager : MonoBehaviour
     {
         fuel += amount;
         UIManager.main.AddPower(amount);
+    }
+
+    public void PlayerSetPower(float amount)
+    {
+        fuel = amount;
+        UIManager.main.SetPower(amount, maxFuel);
     }
 
     public void PlayerGetOre(int tonsOfOre)

@@ -11,7 +11,8 @@ public enum ResourceType
     None,
     Power,
     Ore,
-    Money
+    Money,
+    Health
 }
 public class UIShop : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class UIShop : MonoBehaviour
     private ResourceType selling;
     [SerializeField]
     private ResourceType buying;
+
 
     [SerializeField]
     [Range(0, 10000)]
@@ -51,7 +53,7 @@ public class UIShop : MonoBehaviour
 
     public void Buy()
     {
-        if (GameManager.main.WithdrawResource(buying, cost))
+        if (GameManager.main.CanGainResource(selling, amount) && GameManager.main.WithdrawResource(buying, cost))
         {
             GameManager.main.GainResource(selling, amount);
         }

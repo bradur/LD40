@@ -280,17 +280,27 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    IEnumerator fadeIn;
+    IEnumerator fadeOut;
     public void SwitchToNormal()
     {
         safeZone = false;
         if (!musicMuted)
         {
-            StopCoroutine("FadeOut");
-            StopCoroutine("FadeIn");
-            StartCoroutine(FadeOut(safezoneSource, 2f));
+            if (fadeIn != null)
+            {
+                StopCoroutine(fadeIn);
+            }
+            if (fadeOut != null)
+            {
+                StopCoroutine(fadeOut);
+            }
+            fadeIn = FadeIn(musicSource, 2f, 0.35f);
+            fadeOut = FadeOut(safezoneSource, 2f);
+            StartCoroutine(fadeOut);
             musicSource.volume = 0f;
             musicSource.Play();
-            StartCoroutine(FadeIn(musicSource, 2f, 0.226f));
+            StartCoroutine(fadeIn);
         }
     }
 
@@ -299,12 +309,20 @@ public class SoundManager : MonoBehaviour
         safeZone = true;
         if (!musicMuted)
         {
-            StopCoroutine("FadeOut");
-            StopCoroutine("FadeIn");
-            StartCoroutine(FadeOut(musicSource, 2f));
+            if (fadeIn != null)
+            {
+                StopCoroutine(fadeIn);
+            }
+            if (fadeOut != null)
+            {
+                StopCoroutine(fadeOut);
+            }
+            fadeIn = FadeIn(safezoneSource, 2f, 0.8f);
+            fadeOut = FadeOut(musicSource, 2f);
+            StartCoroutine(fadeOut);
             safezoneSource.volume = 0f;
             safezoneSource.Play();
-            StartCoroutine(FadeIn(safezoneSource, 2f, 0.8f));
+            StartCoroutine(fadeIn);
         }
     }
 
@@ -349,6 +367,7 @@ public class SoundManager : MonoBehaviour
     }
 
     private bool safeZone = false;
+    public bool SafeZone { get { return safeZone; } }
     public void StartMusic()
     {
         if (!musicMuted)

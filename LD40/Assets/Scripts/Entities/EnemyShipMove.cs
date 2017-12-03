@@ -8,7 +8,6 @@ using System.Collections;
 public class EnemyShipMove : MonoBehaviour
 {
 
-    [SerializeField]
     private Transform playerTarget;
 
     [SerializeField]
@@ -47,6 +46,11 @@ public class EnemyShipMove : MonoBehaviour
     [SerializeField]
     private EnemyShipShoot enemyShipShoot;
 
+    public void StartMoving()
+    {
+        onTheMove = true;
+    }
+
     void Start()
     {
 
@@ -54,6 +58,10 @@ public class EnemyShipMove : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (playerTarget == null)
+        {
+            playerTarget = GameManager.main.GetPlayerTransform();
+        }
         Vector3 dir = playerTarget.position - transform.position;
         //get the angle between transform.forward and target delta
         float angleDiff = Vector3.Angle(transform.up, dir);
@@ -103,14 +111,6 @@ public class EnemyShipMove : MonoBehaviour
                 backThrusterRight.SetActive(true);
                 enemyShipShoot.StartFiring();
             }
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Projectile")
-        {
-            Debug.Log("Hit enemy!");
         }
     }
 }

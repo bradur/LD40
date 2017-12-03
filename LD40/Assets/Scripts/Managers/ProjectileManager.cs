@@ -23,6 +23,11 @@ public class ProjectileManager : MonoBehaviour
     private float speed = 2f;
 
     [SerializeField]
+    [Range(0.5f, 100f)]
+    private float enemySpeed = 2f;
+
+
+    [SerializeField]
     [Range(1f, 10f)]
     private float lifeTime = 1f;
 
@@ -98,6 +103,15 @@ public class ProjectileManager : MonoBehaviour
         }
     }
 
+    public void SpawnProjectileNow()
+    {
+        SpawnProjectile(leftCannon.position, leftCannon.up, leftCannon.rotation);
+        leftCannonLight.SetActive(true);
+        SpawnProjectile(rightCannon.position, rightCannon.up, rightCannon.rotation);
+        rightCannonLight.SetActive(true);
+        spawnTimer = 0f;
+    }
+
     [SerializeField]
     private Rigidbody2D playerRb2d;
 
@@ -120,7 +134,7 @@ public class ProjectileManager : MonoBehaviour
         newProjectile.transform.rotation = rotation;
         //Projectile newProjectile = Instantiate(projectilePrefab, position, rotation);
         //newProjectile.gameObject.SetActive(true);
-        newProjectile.Init(lifeTime, speed, direction, enemyShipVelocity);
+        newProjectile.Init(lifeTime, enemySpeed, direction, enemyShipVelocity);
     }
     public void EnemyProjectileSleep(Projectile projectile)
     {

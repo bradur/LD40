@@ -5,7 +5,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class SafeZone : MonoBehaviour {
+public class SafeZone : MonoBehaviour
+{
 
 
     [SerializeField]
@@ -26,11 +27,13 @@ public class SafeZone : MonoBehaviour {
         playerMovement.EnterSafeZone();
     }
 
-    void Start () {
-    
+    void Start()
+    {
+
     }
 
-    void Update () {
+    void Update()
+    {
         if (playerIsHere)
         {
             float distance = Vector2.Distance(transform.position, playerMovement.transform.position);
@@ -41,12 +44,21 @@ public class SafeZone : MonoBehaviour {
                 SoundManager.main.SwitchToNormal();
                 playerShoot.EnableWeapons();
             }
-        } else
+            else if (!SoundManager.main.SafeZone)
+            {
+                SoundManager.main.SwitchToSafeZone();
+            }
+        }
+        else
         {
             float distance = Vector2.Distance(transform.position, playerMovement.transform.position);
             if (distance < distanceToAllowMovement)
             {
                 PlayerEnter();
+            }
+            else if (SoundManager.main.SafeZone)
+            {
+                SoundManager.main.SwitchToNormal();
             }
         }
     }

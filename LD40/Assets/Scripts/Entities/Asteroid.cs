@@ -48,6 +48,7 @@ public class Asteroid : MonoBehaviour {
     private void StartDying ()
     {
         isDying = true;
+        GameManager.main.SpawnEnemies(tonsOfOre);
         GameManager.main.PlayerGetOreEffect(tonsOfOre, transform.position);
         animator.SetTrigger("Die");
     }
