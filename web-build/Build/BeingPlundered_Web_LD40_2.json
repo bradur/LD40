@@ -1,0 +1,11 @@
+{
+"TOTAL_MEMORY": 268435456,
+"dataUrl": "BeingPlundered_Web_LD40_2.data.unityweb",
+"asmCodeUrl": "BeingPlundered_Web_LD40_2.asm.code.unityweb",
+"asmMemoryUrl": "BeingPlundered_Web_LD40_2.asm.memory.unityweb",
+"asmFrameworkUrl": "BeingPlundered_Web_LD40_2.asm.framework.unityweb",
+"graphicsAPI": ["WebGL 2.0", "WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20"
+}
