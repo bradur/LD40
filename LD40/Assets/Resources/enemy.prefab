@@ -373,7 +373,7 @@ GameObject:
   - component: {fileID: 95392087474185692}
   m_Layer: 13
   m_Name: enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1134,11 +1134,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyMove: {fileID: 114708719339755176}
   animator: {fileID: 95392087474185692}
-  warpSpeed: 0
+  warpSpeed: 1
   warpDuration: 1
   isWarping: 0
+  health: 100
   trailLeft: {fileID: 1764320290399026}
   trailRight: {fileID: 1471324588870528}
+  sr: {fileID: 212018413563445378}
+  laseredColor: {r: 1, g: 0, b: 0, a: 0.934}
 --- !u!114 &114681410900510142
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1152,6 +1155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rayInterval: 0.2
   userIntervals: 0
+  laserFuelCost: 0.05
 --- !u!114 &114708719339755176
 MonoBehaviour:
   m_ObjectHideFlags: 1

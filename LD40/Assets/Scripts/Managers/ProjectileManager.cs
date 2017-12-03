@@ -125,6 +125,7 @@ public class ProjectileManager : MonoBehaviour
         //Projectile newProjectile = Instantiate(projectilePrefab, position, rotation);
         //newProjectile.gameObject.SetActive(true);
         newProjectile.Init(lifeTime, speed, direction, playerRb2d.velocity);
+        SoundManager.main.PlaySound(SoundType.ShootCannon);
     }
 
     public void SpawnEnemyProjectile(Vector3 position, Vector2 direction, Quaternion rotation, Vector3 enemyShipVelocity)

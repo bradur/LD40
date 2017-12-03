@@ -19,12 +19,31 @@ public class ExitGameDialog : MonoBehaviour
     private bool isOpen = false;
 
     [SerializeField]
+    private Text pauseMenuTxt;
+
+    [SerializeField]
+    private Text gameOverMenuTxt;
+
+    [SerializeField]
     private Animator animator;
+
     public void Open()
     {
+        Time.timeScale = 0f;
         animator.SetTrigger("Open");
         isOpen = true;
     }
+
+    public void Open(string text)
+    {
+        Time.timeScale = 0f;
+        txtComponent.text = text;
+        gameOverMenuTxt.enabled = true;
+        pauseMenuTxt.enabled = false;
+        animator.SetTrigger("Open");
+        isOpen = true;
+    }
+
 
     private void Update()
     {
@@ -45,6 +64,7 @@ public class ExitGameDialog : MonoBehaviour
 
     public void Close()
     {
+        Time.timeScale = 1f;
         animator.SetTrigger("Close");
         isOpen = false;
     }
@@ -54,12 +74,10 @@ public class ExitGameDialog : MonoBehaviour
     {
         if (isOpen)
         {
-            Time.timeScale = 1f;
             Close();
         }
         else
         {
-            Time.timeScale = 0f;
             Open();
         }
     }

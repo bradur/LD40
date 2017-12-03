@@ -32,6 +32,7 @@ public class EnemyShip : MonoBehaviour
     [SerializeField]
     [Range(10, 200)]
     private int health = 100;
+    private int maxHealth;
 
     [SerializeField]
     private GameObject trailLeft;
@@ -40,8 +41,10 @@ public class EnemyShip : MonoBehaviour
 
     public void Init(Vector2 position, Vector2 target)
     {
+        maxHealth = health;
         transform.position = position;
         this.target = target;
+        originalColor = sr.color;
         transform.up = (target - position).normalized;
         WarpIn();
     }
@@ -85,9 +88,55 @@ public class EnemyShip : MonoBehaviour
         }
     }
 
+    private bool laserIsHitting = false;
+    private float isHittingTimer = 0f;
+    private float isHittingInterval = 0.5f;
+
+    private int laserDamage = 5;
+
+    [SerializeField]
+    private SpriteRenderer sr;
+
+    [SerializeField]
+    private Color laseredColor;
+    private Color originalColor;
+
+    void LateUpdate()
+    {
+        if (laserIsHitting)
+        {
+            isHittingTimer += Time.deltaTime;
+            sr.color = Color.Lerp(originalColor, laseredColor, (maxHealth - health) / (maxHealth * 1.0f));
+            if (isHittingTimer >= isHittingInterval)
+            {
+                health -= laserDamage;
+                isHittingTimer = 0f;
+            }
+        }
+        else
+        {
+            sr.color = Color.Lerp(originalColor, laseredColor, (maxHealth - health) / (maxHealth * 1.0f));
+        }
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
     void Die()
     {
         Destroy(gameObject);
+        SoundManager.main.PlaySound(SoundType.EnemyDies);
+    }
+
+    public void GetHit(Laser laser)
+    {
+        laserIsHitting = true;
+    }
+
+    public void NotHittingAnymore()
+    {
+        laserIsHitting = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -96,6 +145,7 @@ public class EnemyShip : MonoBehaviour
         {
             collision.gameObject.GetComponent<Projectile>().Die();
             health -= GameManager.main.GetPlayerProjectileDamage();
+            SoundManager.main.PlaySound(SoundType.EnemyGotHit);
             if (health <= 0)
             {
                 Die();

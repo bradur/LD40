@@ -19,13 +19,24 @@ public class UIManager : MonoBehaviour
     private ExitGameDialog exitGameDialog;
     void Update()
     {
-        if (KeyManager.main.GetKeyUp(Action.Pause)) {
+        if (KeyManager.main.GetKeyUp(Action.Pause) && !gameOver) {
             if(!exitGameDialog.isActiveAndEnabled)
             {
                 exitGameDialog.gameObject.SetActive(true);
             }
             exitGameDialog.Toggle();
         }
+    }
+
+    private bool gameOver = false;
+    public void OpenGameOverDialog()
+    {
+        gameOver = true;
+        if (!exitGameDialog.isActiveAndEnabled)
+        {
+            exitGameDialog.gameObject.SetActive(true);
+        }
+        exitGameDialog.Open("Game over!");
     }
 
     /*[SerializeField]

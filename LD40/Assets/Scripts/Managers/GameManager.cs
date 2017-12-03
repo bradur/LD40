@@ -78,11 +78,6 @@ public class GameManager : MonoBehaviour
         enemyManager.SpawnEnemies(enemyCount);
     }
 
-    public void GameOver()
-    {
-        Debug.Log("You died!");
-    }
-
     public void PlayerTakeDamage(DamageType damageType)
     {
         int damage = 2;
@@ -91,9 +86,10 @@ public class GameManager : MonoBehaviour
             currentHealth -= damage;
             if (currentHealth <= 0)
             {
-                GameOver();
+                UIManager.main.OpenGameOverDialog();
             }
         }
+        SoundManager.main.PlaySound(SoundType.PlayerGotHit);
         UIManager.main.PlayerTakeDamage(damage);
     }
 
@@ -110,6 +106,10 @@ public class GameManager : MonoBehaviour
 
     public bool WithDrawFuel(float amount)
     {
+        if (Time.timeScale < 1f)
+        {
+            return false;
+        }
         if (fuel >= amount)
         {
             fuel -= amount;

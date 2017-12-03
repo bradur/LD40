@@ -8,7 +8,14 @@ public enum SoundType
     None,
     GetMoney,
     PirateWarning,
-    LowFuelWarning
+    LowFuelWarning,
+    EnemyGotHit,
+    PlayerGotHit,
+    LaserIsOn,
+    EnemyDies,
+    PlayerDies,
+    ShootCannon,
+    LaserHits
 }
 
 public class SoundManager : MonoBehaviour
@@ -295,7 +302,7 @@ public class SoundManager : MonoBehaviour
             {
                 StopCoroutine(fadeOut);
             }
-            fadeIn = FadeIn(musicSource, 2f, 0.35f);
+            fadeIn = FadeIn(musicSource, 2f, 0.45f);
             fadeOut = FadeOut(safezoneSource, 2f);
             StartCoroutine(fadeOut);
             musicSource.volume = 0f;

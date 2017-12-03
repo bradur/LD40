@@ -8,6 +8,7 @@ TagManager:
   - SafeZone
   - EnemyProjectile
   - Projectile
+  - Enemy
   layers:
   - Default
   - TransparentFX
