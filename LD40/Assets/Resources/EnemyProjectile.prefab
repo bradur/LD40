@@ -23,9 +23,9 @@ GameObject:
   - component: {fileID: 114551436692495518}
   - component: {fileID: 50106356315397414}
   - component: {fileID: 58598752506858474}
-  m_Layer: 10
-  m_Name: CannonProjectile
-  m_TagString: Projectile
+  m_Layer: 12
+  m_Name: EnemyProjectile
+  m_TagString: EnemyProjectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb2d: {fileID: 50106356315397414}
+  enemyProjectile: 1
 --- !u!212 &212743359712519622
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -125,7 +126,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 20
   m_Sprite: {fileID: 21300002, guid: 7d0f97b992923e04dada3eb2518d6ea3, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

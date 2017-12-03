@@ -1,11 +1,12 @@
 fileFormatVersion: 2
 guid: 7d0f97b992923e04dada3eb2518d6ea3
-timeCreated: 1512211725
+timeCreated: 1512305825
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: ship
     21300002: projectile
+    21300004: enemy
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -125,6 +126,20 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: enemy
+      rect:
+        serializedVersion: 2
+        x: 128
         y: 448
         width: 64
         height: 64

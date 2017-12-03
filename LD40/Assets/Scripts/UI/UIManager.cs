@@ -39,6 +39,24 @@ public class UIManager : MonoBehaviour
         }
     }*/
 
+    [SerializeField]
+    private HUDHealth hudHealth;
+    public void PlayerTakeDamage(int damage)
+    {
+        hudHealth.TakeDamage(damage);
+    }
+
+    public void SetInitialHealth(int health)
+    {
+        hudHealth.SetInitialHealth(health);
+    }
+
+    public void RepairHealth(int health)
+    {
+        hudHealth.Repair(health);
+    }
+
+
     MessageDisplay messageDisplay;
     public void ShowDefaultMessage(Vector2 position, string message)
     {

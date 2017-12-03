@@ -30,7 +30,6 @@ public class Shop : MonoBehaviour {
             }
             if (!uiShop.IsOpen)
             {
-                Debug.Log("Shop opens!");
                 uiShop.Open();
             }
         }

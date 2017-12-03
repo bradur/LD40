@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Asteroid
   - SafeZone
+  - EnemyProjectile
+  - Projectile
   layers:
   - Default
   - TransparentFX
@@ -19,8 +21,8 @@ TagManager:
   - Player
   - Projectile
   - SafeZone
-  - 
-  - 
+  - EnemyProjectile
+  - Enemy
   - 
   - 
   - 

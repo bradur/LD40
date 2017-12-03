@@ -10,12 +10,13 @@ using System.Collections.Generic;
 public class ProjectileManager : MonoBehaviour
 {
 
-
-
     public static ProjectileManager main;
 
     [SerializeField]
     private ProjectilePool pool;
+
+    [SerializeField]
+    private ProjectilePool enemyProjectilePool;
 
     [SerializeField]
     [Range(0.5f, 100f)]
@@ -110,6 +111,20 @@ public class ProjectileManager : MonoBehaviour
         //Projectile newProjectile = Instantiate(projectilePrefab, position, rotation);
         //newProjectile.gameObject.SetActive(true);
         newProjectile.Init(lifeTime, speed, direction, playerRb2d.velocity);
+    }
+
+    public void SpawnEnemyProjectile(Vector3 position, Vector2 direction, Quaternion rotation, Vector3 enemyShipVelocity)
+    {
+        Projectile newProjectile = enemyProjectilePool.GetProjectile();
+        newProjectile.transform.position = position;
+        newProjectile.transform.rotation = rotation;
+        //Projectile newProjectile = Instantiate(projectilePrefab, position, rotation);
+        //newProjectile.gameObject.SetActive(true);
+        newProjectile.Init(lifeTime, speed, direction, enemyShipVelocity);
+    }
+    public void EnemyProjectileSleep(Projectile projectile)
+    {
+        enemyProjectilePool.Sleep(projectile);
     }
 
     [SerializeField]

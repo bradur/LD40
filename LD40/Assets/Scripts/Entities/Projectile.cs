@@ -14,6 +14,9 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     private Rigidbody2D rb2d;
 
+    [SerializeField]
+    private bool enemyProjectile = false;
+
     private float lifeTimer = 0f;
     private float lifeTime = 5f;
 
@@ -31,7 +34,14 @@ public class Projectile : MonoBehaviour
 
     public void Die()
     {
-        ProjectileManager.main.Sleep(this);
+        if (enemyProjectile)
+        {
+            ProjectileManager.main.EnemyProjectileSleep(this);
+        }
+        else
+        {
+            ProjectileManager.main.Sleep(this);
+        }
     }
 
     private CannonPosition cannonPosition;
